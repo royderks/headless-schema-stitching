@@ -1,3 +1,4 @@
+import { GraphQLList } from 'graphql'
 import { ApolloServer } from 'apollo-server-micro';
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
@@ -61,35 +62,35 @@ export default async function grapqhl(req, res) {
   // Build the combined schema and set up the extended schema and resolver
   const schema = stitchSchemas({
     subschemas: [localSubschema, productsSubschema, cmsSubschema],
-      typeDefs: `
+    typeDefs: `
       extend type Product {
         cmsMetaData: [Cms_Product]!
       }
     `,
-      resolvers: {
-        Product: {
-          cmsMetaData: {
-            selectionSet: `{ id }`,
-            resolve(product, args, context, info) {
-              // Get the data for the extended type from the subschema for the CMS
-              return delegateToSchema({
-                schema: cmsSubschema,
-                operation: 'query',
-                fieldName: 'cms_product',
-                args: { where: { id: product.id } },
-                context,
-                info,
-              });
-            },
+    resolvers: {
+      Product: {
+        cmsMetaData: {
+          selectionSet: `{ id }`,
+          resolve(product, args, context, info) {
+            // Get the data for the extended type from the subschema for the CMS
+            return delegateToSchema({
+              schema: cmsSubschema,
+              operation: 'query',
+              fieldName: 'cms_allProducts',
+              args: { filter: { id: product.id } },
+              context,
+              info,
+            });
           },
         },
       },
+    },
   });
 
   // Set up the GraphQL server
-  // const apolloServer = new ApolloServer({ schema });
   const apolloServer = new ApolloServer({
     schema,
+    // Use the "old" GraphQL Playground
     plugins: [
       process.env.NODE_ENV === 'production'
         ? ApolloServerPluginLandingPageDisabled()
