@@ -3,12 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "start-cms": "node services/cms.js",
+    "start-ecommerce": "node services/ecommerce.js",
+    "dev": "concurrently \"yarn start-cms\" \"yarn start-ecommerce\" \"yarn next dev\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@graphql-tools/delegate": "^8.0.8",
+    "@graphql-tools/schema": "^8.1.0",
+    "@graphql-tools/stitch": "^8.1.0",
+    "@graphql-tools/wrap": "^8.0.10",
+    "apollo-server-micro": "^3.1.2",
+    "concurrently": "^6.2.1",
+    "express": "^4.17.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.5.1",
+    "json-graphql-server": "^2.2.3",
+    "micro": "^9.3.4",
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
