@@ -1,10 +1,4 @@
-> 🚀 Instead of schema stitching, you can automatically glue together APIs with [StepZen](https://stepzen.com/docs] as well!
-
-
-
-
-
-
+> 🚀 Instead of schema stitching, you can automatically glue together APIs with [StepZen](https://stepzen.com/docs) as well! Tutorial link [here](https://stepzen.com/blog/mixing-data-from-storyblok-cms).
 
 ## Getting Started
 
